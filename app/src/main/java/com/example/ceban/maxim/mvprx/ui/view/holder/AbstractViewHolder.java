@@ -10,5 +10,5 @@ public abstract class AbstractViewHolder<T> extends RecyclerView.ViewHolder  {
         super(itemView);
         ButterKnife.bind(this,itemView);
     }
-   abstract void bind(T data);
+ public  abstract void bind(T data);
 }
