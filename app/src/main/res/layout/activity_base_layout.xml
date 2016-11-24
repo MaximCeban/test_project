@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.ceban.maxim.mvprx.ui.sources.DashboardActivity">
+    tools:context="com.example.ceban.maxim.mvprx.ui.sources.NewsSourcesActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="56dp" />
+        android:background="?attr/colorPrimary" />
 
     <FrameLayout
         android:id="@+id/container"

@@ -10,6 +10,7 @@ public class SourcesContractor {
         void refreshData();
 
         void showArticles(Source source);
+        void onDestroy();
     }
 
     public interface View extends NewsSourceAdapter.OnItemClickListener{

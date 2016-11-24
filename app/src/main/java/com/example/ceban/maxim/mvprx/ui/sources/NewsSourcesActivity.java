@@ -10,14 +10,10 @@ import com.example.ceban.maxim.mvprx.ui.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DashboardActivity extends BaseActivity {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
+public class NewsSourcesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSupportActionBar(toolbar);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, NewsSourcesListFragment.newInstance())

@@ -14,6 +14,7 @@ import com.example.ceban.maxim.mvprx.ui.view.adapter.NewsSourceAdapter;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  *
@@ -23,18 +24,19 @@ public class Presenter implements SourcesContractor.Presenter {
 
     private SourcesContractor.View view;
     private Context context;
-
+private CompositeSubscription compositeSubscription;
     public Presenter(SourcesContractor.View view, Context context) {
         this.view = view;
         this.context = context;
+        compositeSubscription =  new CompositeSubscription();
     }
 
     @Override
     public void refreshData() {
-        new RestClient().getNewsSources().getNewsSources()
+        compositeSubscription.add(new RestClient().getNewsSources().getNewsSources()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleSuccess, this::handleError);
+                .subscribe(this::handleSuccess, this::handleError));
     }
 
     void handleError(Throwable throwable) {
@@ -53,5 +55,10 @@ public class Presenter implements SourcesContractor.Presenter {
         Intent intent = new Intent(context, ArticlesActivity.class);
         intent.putExtra(ArticlesActivity.KEY_SOURCE, source);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        compositeSubscription.unsubscribe();
     }
 }

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  *
@@ -22,10 +23,11 @@ import rx.schedulers.Schedulers;
 public class Presenter implements ArticlesContractor.Presenter {
     private ArticlesContractor.View view;
     private Context context;
-
+private CompositeSubscription compositeSubscription;
     public Presenter(ArticlesContractor.View view, Context context) {
         this.view = view;
         this.context = context;
+        compositeSubscription = new CompositeSubscription();
     }
 
     @Override
@@ -35,10 +37,10 @@ public class Presenter implements ArticlesContractor.Presenter {
         queryMap.put("apiKey", context.getString(R.string.news_api_key));
         queryMap.put("source", source.getId());
       //  queryMap.put("sortBy", "latest");
-        new RestClient().getNewsSources().getArticles(queryMap)
+     compositeSubscription.add(new RestClient().getNewsSources().getArticles(queryMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleSuccess, this::handleError);
+                .subscribe(this::handleSuccess, this::handleError));
     }
 
     private void handleError(Throwable throwable) {
@@ -54,5 +56,10 @@ public class Presenter implements ArticlesContractor.Presenter {
     @Override
     public void onArticleClick(Article article) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        compositeSubscription.unsubscribe();
     }
 }

@@ -55,8 +55,7 @@ public class ArticlesFragment extends BaseFragment implements ArticlesContractor
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter = new Presenter(this, getActivity());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.refreshArticles(source));
         presenter.refreshArticles(source);
     }
@@ -79,6 +78,12 @@ public class ArticlesFragment extends BaseFragment implements ArticlesContractor
         }else{
             adapter.updateData(articles);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
 
     }
 }

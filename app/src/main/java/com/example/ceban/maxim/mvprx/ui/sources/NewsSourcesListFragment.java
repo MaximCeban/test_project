@@ -69,4 +69,10 @@ public class NewsSourcesListFragment extends BaseFragment implements SourcesCont
     public void itemClicked(Source source) {
 presenter.showArticles(source);
     }
+
+    @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
+    }
 }

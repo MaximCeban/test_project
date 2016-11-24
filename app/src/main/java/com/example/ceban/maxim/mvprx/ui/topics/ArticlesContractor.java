@@ -16,5 +16,6 @@ public class ArticlesContractor {
         void refreshArticles(Source source);
 
         void onArticleClick(Article article);
+        void onDestroy();
     }
 }

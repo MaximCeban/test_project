@@ -7,6 +7,7 @@ import com.example.ceban.maxim.mvprx.ui.BaseActivity;
 
 public class ArticlesActivity extends BaseActivity {
     public static final String KEY_SOURCE = "source";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
