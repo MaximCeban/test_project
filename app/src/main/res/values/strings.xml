@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">mvprx</string>
-    <string name="news_api_key">8fe7c43845cb4fb196b1e25be4592358</string>
-
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-</resources>
