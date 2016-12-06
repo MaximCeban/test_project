@@ -15,7 +15,8 @@ public class ArticlesContractor {
     public interface Presenter {
         void refreshArticles(Source source);
 
-        void onArticleClick(Article article);
+        void onArticleClick(String url);
+
         void onDestroy();
     }
 }

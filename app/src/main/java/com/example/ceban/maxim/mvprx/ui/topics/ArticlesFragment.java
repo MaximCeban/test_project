@@ -3,7 +3,6 @@ package com.example.ceban.maxim.mvprx.ui.topics;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,18 +18,15 @@ import java.util.List;
 
 import butterknife.BindView;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ArticlesFragment extends BaseFragment implements ArticlesContractor.View {
+public class ArticlesFragment extends BaseFragment implements ArticlesContractor.View, ArticlesAdapter.OnArticleClickListener {
     public static final String SOURCE = "source";
-    private Source source;
-    private ArticlesContractor.Presenter presenter;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_to_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
     ArticlesAdapter adapter;
+    private Source source;
+    private ArticlesContractor.Presenter presenter;
 
     public ArticlesFragment() {
         // Required empty public constructor
@@ -73,9 +69,9 @@ public class ArticlesFragment extends BaseFragment implements ArticlesContractor
     @Override
     public void showData(List<Article> articles) {
         if (adapter == null) {
-            adapter = new ArticlesAdapter(articles,getActivity());
+            adapter = new ArticlesAdapter(articles, getActivity(), this);
             recyclerView.setAdapter(adapter);
-        }else{
+        } else {
             adapter.updateData(articles);
         }
     }
@@ -84,6 +80,10 @@ public class ArticlesFragment extends BaseFragment implements ArticlesContractor
     public void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
+    }
 
+    @Override
+    public void onArticleClicked(String url) {
+        presenter.onArticleClick(url);
     }
 }

@@ -1,13 +1,13 @@
 package com.example.ceban.maxim.mvprx.ui.topics;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.example.ceban.maxim.mvprx.R;
-import com.example.ceban.maxim.mvprx.entities.Article;
 import com.example.ceban.maxim.mvprx.entities.Source;
 import com.example.ceban.maxim.mvprx.rest.ArticlesResponse;
 import com.example.ceban.maxim.mvprx.rest.RestClient;
-import com.example.ceban.maxim.mvprx.ui.view.adapter.ArticlesAdapter;
+import com.example.ceban.maxim.mvprx.ui.topic.TopicActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,8 @@ import rx.subscriptions.CompositeSubscription;
 public class Presenter implements ArticlesContractor.Presenter {
     private ArticlesContractor.View view;
     private Context context;
-private CompositeSubscription compositeSubscription;
+    private CompositeSubscription compositeSubscription;
+
     public Presenter(ArticlesContractor.View view, Context context) {
         this.view = view;
         this.context = context;
@@ -36,8 +37,8 @@ private CompositeSubscription compositeSubscription;
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("apiKey", context.getString(R.string.news_api_key));
         queryMap.put("source", source.getId());
-      //  queryMap.put("sortBy", "latest");
-     compositeSubscription.add(new RestClient().getNewsSources().getArticles(queryMap)
+        //  queryMap.put("sortBy", "latest");
+        compositeSubscription.add(new RestClient().getNewsSources().getArticles(queryMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleSuccess, this::handleError));
@@ -54,12 +55,16 @@ private CompositeSubscription compositeSubscription;
     }
 
     @Override
-    public void onArticleClick(Article article) {
-
+    public void onArticleClick(String articleUrl) {
+        Intent intent = new Intent(context, TopicActivity.class);
+        intent.putExtra(TopicActivity.ARTICLE_URL, articleUrl);
+        context.startActivity(intent);
     }
 
     @Override
     public void onDestroy() {
         compositeSubscription.unsubscribe();
     }
+
+
 }
